@@ -14,8 +14,8 @@ async function connectToDatabase(): Promise<boolean> {
   };
 
   try {
-    // await mongoose.connect(`${process.env.TICKET_APP_DB_URL}`, connectionOptions);
-    await mongoose.connect(`mongodb://localhost/voucher`, connectionOptions);
+    await mongoose.connect(`${process.env.MONGO_DB}`, connectionOptions);
+    // await mongoose.connect(`mongodb://localhost/voucher`, connectionOptions);
     console.log("Connected to database");
     return true;
   } catch (error) {
