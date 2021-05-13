@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "preinstall": "yarn add pm2 -g && pm2 install pm2-logrotate",
+    "preinstall": "npm install pm2 -g && pm2 install pm2-logrotate",
     "start": "node ./dist/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p ."
@@ -19,7 +19,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.0",
     "bcryptjs": "^2.4.3",
-    "dotenv": "^9.0.2",
+    "dotenv": "^8.2.0",
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
