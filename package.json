@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "preinstall": "yarn install pm2 -g && pm2 install pm2-logrotate",
+    "preinstall": "yarn add pm2 -g && pm2 install pm2-logrotate",
     "start": "node ./dist/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p ."
