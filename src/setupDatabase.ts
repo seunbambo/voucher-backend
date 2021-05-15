@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+require("dotenv").config();
 
 async function databaseSetUp() {
   const connected: boolean = await connectToDatabase();

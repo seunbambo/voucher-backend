@@ -1,37 +1,16 @@
 import Joi from "@hapi/joi";
 import { Context } from "koa";
-import Web3 from "web3";
 
 import { IVoucher } from "../../interface/voucher.interface";
 import { VoucherModel } from "../../models/voucher/Voucher.model";
 import { UserModel } from "../../models/user/User.model";
 // import { IUser } from "../../interface/user.interface";
 
-const Subscription = require("../../config/Subscription.json");
+// const Subscription = require("../../config/Subscription.json");
 
-const RANDOM_VALUE_MULTIPLIER = 10001;
+// const RANDOM_VALUE_MULTIPLIER = 10001;
 
-const voucherGeneratedId: string = `${Math.floor(Math.random() * RANDOM_VALUE_MULTIPLIER)}`;
-
-const initCreate = async (amount: number) => {
-  const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-  const id = await web3.eth.net.getId();
-  const deployedNetwork = Subscription.networks[id];
-  const contract = new web3.eth.Contract(Subscription.abi, deployedNetwork.address);
-  const addresses: any = await web3.eth.getAccounts();
-
-  await contract.methods.createVoucher(voucherGeneratedId, amount).send({
-    // const receipt = await contract.methods.createVoucher(voucherGeneratedId, amount).send({
-    from: addresses[0],
-    gas: 4700000,
-    gasPrice: "2000000000",
-  });
-
-  // const voucher = await contract.methods.getVouchers(1).call();
-
-  // console.log("Receipt", receipt);
-  // console.log("Vouchers", voucher);
-};
+// const voucherGeneratedId: string = `${Math.floor(Math.random() * RANDOM_VALUE_MULTIPLIER)}`;
 
 export class Voucher {
   public async getAllVouchers(ctx: Context): Promise<void> {
@@ -49,15 +28,16 @@ export class Voucher {
       const body: IVoucher = ctx.request.body;
       const schema = Joi.object().keys({
         amount: Joi.number().required(),
+        voucherId: Joi.string().required(),
       });
       const value: IVoucher = await schema.validateAsync(body);
       const { id } = ctx.state.user;
 
       value.user = id;
-      value.voucherId = voucherGeneratedId;
+      value.voucherId = ctx.request.body.voucherId;
       const voucher = await VoucherModel.create(value);
 
-      initCreate(ctx.request.body.amount);
+      // initCreate(ctx.request.body.amount);
 
       if (voucher) {
         await UserModel.updateOne(
